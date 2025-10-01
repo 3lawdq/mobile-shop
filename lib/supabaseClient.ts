@@ -1,14 +1,13 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
 
-// الحصول على المتغيرات البيئية
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY; // استخدم المفتاح الصحيح
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-// التحقق من وجود المتغيرات البيئية
-if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceRoleKey) {
-  console.error('Missing required environment variables: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE');
-  throw new Error('Supabase URL, Anonymous Key, or Service Role Key is missing');
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error(
+    'Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY'
+  );
 }
 
 // منع إنشاء أكثر من عميل مع HMR
@@ -17,7 +16,7 @@ declare global {
 }
 
 // Helper لتوليد redirect URL
-export const getRedirectTo = (path = '/auth/callback') => {
+const getRedirectTo = (path = '/auth/callback') => {
   const envBase = process.env.NEXT_PUBLIC_SITE_URL;
   const origin =
     (typeof window !== 'undefined' && window.location?.origin) ||
@@ -26,12 +25,11 @@ export const getRedirectTo = (path = '/auth/callback') => {
   return `${origin}${path}`;
 };
 
-// إنشاء العميل
 export const supabaseBrowser =
   globalThis.__supabase ??
   createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
-      flowType: 'pkce', // ✅ مهم لـ Google OAuth
+      flowType: 'pkce',         // ✅ مهم لـ Google OAuth
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
@@ -39,9 +37,6 @@ export const supabaseBrowser =
   });
 
 globalThis.__supabase = supabaseBrowser;
-
-// إنشاء عميل Supabase للـ Service Role (يستخدم في الخوادم فقط)
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
 
 // ========= Helpers =========
 export const signUpWithEmail = (email: string, password: string) =>
