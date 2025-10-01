@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2017", // تحديثه لـ ES2017 أو أعلى
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node", // استخدام node بدلاً من bundler
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".", // إضافته إذا كنت تحتاج تنظيم المسارات
+    "paths": {
+      "@/*": ["src/*"], // مسار مشروعك المبدئي
+      "@lib/*": ["lib/*"] // مسار خاص للمكتبات مثل supabaseClient
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

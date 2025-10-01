@@ -1,0 +1,66 @@
+/* Tailwind v4 */
+@import "tailwindcss";
+
+/* المتغيرات العامة */
+:root {
+  /* خلفية فاتحة وهوية المشروع */
+  --background: #ffffff;     /* خلفية بيضاء صافية */
+  --foreground: #171717;     /* النص الأساسي */
+  --primary: #ec7302;        /* اللون الأساسي (برتقالي) */
+  --primary-light: #f9a65c;  /* درجة أفتح */
+  --primary-dark: #c95d00;   /* درجة أغمق */
+
+  /* الخط */
+  --font-sans: var(--font-cairo), Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+/* الوضع الداكن (اختياري للمستقبل) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --primary: #ec7302; /* ثابت */
+  }
+}
+
+/* خرائط الثيم لـ Tailwind v4 */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+/* ضبط عام */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* ✨ خلفية هوية مع Noise */
+  background-image: url('/noise.svg');
+  background-repeat: repeat;
+  background-size: 250px 250px; /* مناسبة للشاشات الكبيرة */
+  background-attachment: fixed;
+  background-blend-mode: overlay;
+}
